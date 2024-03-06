@@ -1,0 +1,147 @@
+
+<section class="discounted_section_wrapper_dk" id="dk_disc_sec{{ section.id }}">
+  <div class="discount_row">
+    <div class="discount_title_wrap_dk">
+      <h2>{{ section.settings.title }}</h2>
+      <p>{{ section.settings.description }}</p>
+    </div>
+    <div class="product_wrapper_dk">
+      {% if section.settings.product %}
+        {% assign product = section.settings.product %}
+        <div class="product_image_dk">
+          {% if product.featured_image %}
+            <img src="{{ product.featured_image | img_url: 'medium' }}" alt="{{ product.title }}">
+          {% endif %}
+        </div>
+        <div class="product_detail_dk">
+          {% if product.title %}
+            <h3>{{ product.title }}</h3>
+          {% endif %}
+          {% if product.vendor %}
+            <h4>Vendor: <span>{{ product.vendor }}</span></h4>
+          {% endif %}
+          {% if product.collections.first %}
+            <h4>Category: <span>{{ product.collections.first.title }}</span></h4>
+          {% endif %}
+          {% if product.description %}
+            <p>{{ product.description | truncate: 100 }}</p>
+          {% endif %}
+          {% if product.available %}
+            <form action="/cart/add" method="post" enctype="multipart/form-data">
+              <input type="hidden" name="id" value="{{ product.variants.first.id }}">
+              <input type="submit" value="Add to Cart" class="product_add_to_cart_dk">
+            </form>
+          {% else %}
+            <p>This product is currently out of stock.</p>
+          {% endif %}
+        </div>
+      {% endif %}
+    </div>
+    <div class="discount_info_wrapper_dk">
+      <div id="dk_timer_{{ section.id }}" class="timer_area"></div>
+      <h3>{{ section.settings.notation_for_buying }}</h3>
+      <p>Get <span>{{ section.settings.discount_percentage }}%</span> off</p>
+      <!-- <p>Discount Duration: {{ section.settings.date_picker }}</p> -->
+    </div>
+  </div>
+</section>
+<script>
+// Function to update the countdown
+function updateCountdown() {
+  // Set the target date and time (in UTC)
+  const targetDate = new Date("{{ section.settings.date_picker }}");
+  
+  // Get the current date and time (in the user's timezone)
+  const now = new Date();
+  
+  // Calculate the remaining time
+  const timeDifference = targetDate - now;
+  
+  // If the time difference is less than or equal to 0, the countdown has reached zero
+  if (timeDifference <= 0) {
+    let elem_c = document.getElementById("dk_timer_{{ section.id }}");
+    //elem_c.innerHTML = "Time up!";
+    elem_c.parentNode.closest('section').remove();
+    // Perform any action here when the countdown reaches zero
+    // For example: redirect to another page, display a message, etc.
+    return;
+  }
+  
+  // Convert the time difference to days, hours, minutes, and seconds
+  const days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+  const hours = Math.floor((timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  const minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
+  const seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
+
+  const daysString = days < 10 ? "0" + days : days;
+  const hoursString = hours < 10 ? "0" + hours : hours;
+  const minutesString = minutes < 10 ? "0" + minutes : minutes;
+  const secondsString = seconds < 10 ? "0" + seconds : seconds;
+  
+  // Display the countdown in the specified element
+  let day_display = '';
+  if(days>0){
+    day_display = "<div class='itm_dk day_dk'><span class='itm_prefix_dk'>Day</span><span class='itm_value_dk'>" + daysString + "</span></div> ";
+  }
+  document.getElementById("dk_timer_{{ section.id }}").innerHTML = day_display+"<div class='itm_dk'><span class='itm_prefix_dk'>Hr</span><span class='itm_value_dk'>" + hoursString + "</span></div>:<div class='itm_dk'><span class='itm_prefix_dk'>Min</span><span class='itm_value_dk'>" + minutesString + "</span></div>:<div class='itm_dk'><span class='itm_prefix_dk'>Sec</span><span class='itm_value_dk'>" + secondsString + "</span></div>";
+}
+
+// Call the updateCountdown function every second to keep the countdown updated
+setInterval(updateCountdown, 1000);
+
+// Call the function initially to display the countdown immediately
+updateCountdown();
+</script>
+
+{% schema %}
+  {
+  "name": "Discounted Product",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Discounted Product"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description",
+      "default": "Discounted Product"
+    },
+    {
+      "type": "product",
+      "id": "product",
+      "label": "Select Product"
+    },
+    {
+      "type": "text",
+      "id": "discount_percentage",
+      "label": "Discount Percentage",
+      "default": "20"
+    },
+    {
+      "type": "text",
+      "id": "date_picker",
+      "label": "Choose Discount Duration",
+      "default": "2024-03-05 23:55:00",
+      "info": "e.g. yyyy-mm-dd H:i:s using 24 hour time format 2024-03-05 23:55:00 (Should be in correct format and Date from Future)"
+    },
+    {
+      "type": "text",
+      "id": "notation_for_buying",
+      "label": "Notation For Buying",
+      "default": "Hurry up to get this Discount"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Discounted Product",
+      "settings": {
+        "title": "Discounted Product"
+      }
+    }
+  ]
+}
+
+{% endschema %}
