@@ -7,7 +7,7 @@ In section, you can set heading and short description, select product to show, a
 
 In discounted-product.liquid file, the code is responsible for creating a section in which Product can be selected to show dynamically in the section while the timer can be setup which countdowns to 0. Once the timer becomes 0 or less, the discounts section automatically disappears.
 
-**The discounted-product.liquid file can be uploaded in your Shopify Theme > Edit Code > Sections and its JS code is also added inside the section. While the css file can be included in theme.liquid.**
+**The discounted-product.liquid file can be uploaded in your Shopify Theme > Edit Code > Sections and its JS code is also added inside the section. While the css file can be included in theme.liquid. This section can be used in any page in customizer**
 
 It should be compatible with all the themes since its general code, otherwise you can raise issues as well.
 
