@@ -16,7 +16,7 @@ In discounted-product.liquid file, the code is responsible for creating a sectio
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inder&family=Inter:wght@100..900&display=swap" rel="stylesheet">
 
-#The sweetest thing about this section is, you can add as many section with different timers as you want on same page
+**The sweetest thing about this section is, you can add as many section with different timers as you want on same page**
 
 Thanks & Regards
-#Darkknight
+**Darkknight**
