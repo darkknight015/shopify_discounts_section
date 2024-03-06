@@ -7,6 +7,8 @@ In discounted-product.liquid file, the code is responsible for creating a sectio
 
 **The discounted-product.liquid file can be uploaded in your Shopify Theme > Edit Code > Sections and its JS code is also added inside the section. While the css file can be included in theme.liquid.**
 
+It should be compatible with all the themes since its general code, otherwise you can raise issues as well.
+
 **Use this code in header for including css file =>** {{ 'dk_style.css' | asset_url | stylesheet_tag }}
 
 **Use below code in header to include google fonts used by the discount section**
